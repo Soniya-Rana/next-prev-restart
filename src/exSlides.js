@@ -8,7 +8,7 @@ export default class componentName extends Component {
       slideData: [],
       disableNext: false,
       disablePrev: true,
-      disableRestart: false,
+      disableRestart: true,
     };
   }
 
@@ -18,6 +18,8 @@ export default class componentName extends Component {
     this.setState({
       i: 0,
       disablePrev: true,
+      disableRestart: true,
+      disableNext: false,
     });
     console.log("restart", this.state.i);
     console.log(this.props.slides[0]);
@@ -36,11 +38,13 @@ export default class componentName extends Component {
       if (temp === 0) {
         this.setState({
           disablePrev: true,
+          disableRestart: true,
         });
       }
     } else {
       this.setState({
         disablePrev: true,
+        disableRestart: true,
       });
     }
   };
@@ -55,15 +59,14 @@ export default class componentName extends Component {
         disablePrev: false,
         disableRestart: false,
       });
+      //   if (temp === 1) {
+      //   this.setState({
+      //     disableRestart: true,
+      //   });
+      // }
       if (temp === this.props.slides.length - 1) {
         this.setState({
           disableNext: true,
-          disableRestart: false,
-        });
-      }
-      if (temp === 1) {
-        this.setState({
-          disableRestart: true,
         });
       }
     } else {
@@ -74,47 +77,37 @@ export default class componentName extends Component {
   };
   render() {
     return (
-      <div className="m-4 container d-flex flex-column justify-content-center align-items-center ">
-        <div className=" m-4 container">
+      <div>
+        <div id="navigation" className="text-center">
           <button
             disabled={this.state.disableRestart}
             onClick={this.handleRestart}
-            className="m-2 btn btn-primary"
+            data-testid="button-restart"
+            className="small outlined"
           >
             Restart
           </button>
           <button
             disabled={this.state.disablePrev}
             onClick={this.handlePrev}
-            className="m-2 btn btn-primary"
+            data-testid="button-prev"
+            className="small"
           >
             Prev
           </button>
           <button
             disabled={this.state.disableNext}
             onClick={this.handleNext}
-            className="m-2 btn btn-primary"
+            data-testid="button-next"
+            className="small"
           >
             Next
           </button>
         </div>
-        <div
-          className="mt-6 d-flex justify-content-between align-items-center"
-          style={{ width: "70%", backgroundColor: "#0e0e0" }}
-        >
-          <div
-            className="m-auto card"
-            style={{ width: "400", height: "500", border: "1px solid #000" }}
-          >
-            <div className="card-body">
-              <h1 className="card-title">
-                {this.props.slides[this.state.i].title}
-              </h1>
-              <p className="card-text">
-                {this.props.slides[this.state.i].text}
-              </p>
-            </div>
-          </div>
+
+        <div id="slide" className="card text-center">
+          <h1 data-testid="title">{this.props.slides[this.state.i].title}</h1>
+          <p data-testid="text">{this.props.slides[this.state.i].text}</p>
         </div>
       </div>
     );
